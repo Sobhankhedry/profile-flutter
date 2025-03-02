@@ -46,10 +46,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-
 
   void makePhoneCall() async {
     final Uri phoneUri = Uri(scheme: 'tel', path: phoneController.text);
@@ -61,11 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void sendEmail() async {
+    final String email = emailController.text.trim();
+
     final Uri emailUri = Uri(
       scheme: 'mailto',
-      path: emailController.text, // User's entered email
-      queryParameters: {'subject': 'Hello from Flutter!', 'body': 'This is a test email'},
+      path: email, // Ensure the email address is correctly passed
+      query: Uri.encodeFull('subject=Hello from Flutter!&body=This is a test email'),
     );
+
     if (await canLaunchUrl(emailUri)) {
       await launchUrl(emailUri);
     } else {
@@ -73,14 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+
   @override
   void dispose() {
-    // 🔹 Dispose controllers when widget is removed to free memory
     phoneController.dispose();
     emailController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center, // Centers vertically
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 140, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 200, 0, 0),
                 child: CircleAvatar(
                   radius: 70,
                   backgroundImage: AssetImage('assets/image/photo.jpg'),
@@ -107,19 +107,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Text(
                   'Sobhan & Alireza',
-                  style: GoogleFonts.lacquer(fontSize: 50),
+                  style: GoogleFonts.lacquer(fontSize: 40),
                 ),
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Opacity(
-              opacity: .3,
-              child: Text('MOBILE DEVELOPER', style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.black)),
-            )],
+            children: [
+              Opacity(
+                opacity: .3,
+                child: Text(
+                  'MOBILE DEVELOPER',
+                  style: TextStyle(fontSize: 30, color: Colors.black),
+                ),
+              ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -127,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Container(
-                  width: 500,
+                  width: 300,
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -149,14 +152,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
 
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Container(
-                  width: 500,
+                  width: 300,
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -181,6 +183,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-
